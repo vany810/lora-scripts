@@ -9,6 +9,8 @@ from mikazuki.launch_utils import (base_dir_path, catch_exception,
                                    prepare_environment)
 from mikazuki.log import log
 
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+
 parser = argparse.ArgumentParser(description="GUI for stable diffusion training")
 parser.add_argument("--host", type=str, default="127.0.0.1")
 parser.add_argument("--port", type=int, default=28000, help="Port to run the server on")
