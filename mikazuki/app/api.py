@@ -8,6 +8,7 @@ import toml
 import hashlib
 from fastapi import APIRouter, BackgroundTasks, Request
 from starlette.requests import Request
+from dotenv import load_dotenv
 
 import mikazuki.process as process
 from mikazuki import launch_utils
@@ -22,6 +23,7 @@ from mikazuki.utils.devices import printable_devices
 from mikazuki.utils.tk_window import (open_directory_selector,
                                       open_file_selector)
 
+load_dotenv()
 router = APIRouter()
 
 avaliable_scripts = [
@@ -126,6 +128,7 @@ async def run_interrogate(req: TaggerInterrogateRequest, background_tasks: Backg
     background_tasks.add_task(
         on_interrogate,
         image=None,
+        task_id=req.task_id,
         batch_input_glob=req.path,
         batch_input_recursive=req.batch_input_recursive,
         batch_output_dir="",

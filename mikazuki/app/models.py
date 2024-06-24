@@ -4,6 +4,8 @@ from typing import List, Optional, Union, Dict, Any
 
 class TaggerInterrogateRequest(BaseModel):
     path: str
+    # add account_no
+    task_id: str = Field(default="10001_uuid")
     interrogator_model: str = Field(
         default="wd14-convnextv2-v2"
     )

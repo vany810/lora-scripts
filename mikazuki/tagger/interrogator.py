@@ -14,6 +14,8 @@ from PIL import UnidentifiedImageError
 from huggingface_hub import hf_hub_download
 
 from mikazuki.tagger import dbimutils, format
+from mikazuki.utils.redis_utils import publish_data, TRAINER_SERVER
+
 
 tag_escape_pattern = re.compile(r'([\\()])')
 
@@ -240,6 +242,7 @@ def split_str(s: str, separator=',') -> List[str]:
 
 def on_interrogate(
         image: Image,
+        task_id: str,
         batch_input_glob: str,
         batch_input_recursive: bool,
         batch_output_dir: str,
@@ -270,6 +273,9 @@ def on_interrogate(
         split_str(replace_underscore_excludes),
         escape_tag
     )
+    
+    task_name = os.path.split(batch_input_glob)[-1]
+    input_path = batch_input_glob
 
     # batch process
     batch_input_glob = batch_input_glob.strip()
@@ -393,6 +399,22 @@ def on_interrogate(
                     json.dumps([ratings, tags])
                 )
 
+        # publish redis message
+        message = {
+            "task_id": task_id,
+            "task_name": task_name,
+            "task_type": "batch_interrogate",
+            "task_status": "done",
+            "task_worker": TRAINER_SERVER,
+            "task_data": {
+                "input_path": input_path,
+                "output_dir": batch_output_dir,
+                "threshold": threshold,
+                "additional_tags": additional_tags,
+                "exclude_tags": exclude_tags
+            }
+        }
+        publish_data('task_interrogate', message)
         print('all done / 识别完成')
 
     if unload_model_after_running:
