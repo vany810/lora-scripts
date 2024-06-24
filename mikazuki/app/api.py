@@ -70,6 +70,8 @@ async def create_toml_file(request: Request):
     config: dict = json.loads(json_data.decode("utf-8"))
 
     gpu_ids = config.pop("gpu_ids", None)
+    # task_id(userid + taskid + ...)
+    task_id = config.pop("task_id", None)
 
     suggest_cpu_threads = 8 if len(train_utils.get_total_images(config["train_data_dir"])) > 200 else 2
     model_train_type = config.pop("model_train_type", "sd-lora")
@@ -94,7 +96,8 @@ async def create_toml_file(request: Request):
     with open(toml_file, "w", encoding="utf-8") as f:
         f.write(toml.dumps(config))
 
-    result = process.run_train(toml_file, trainer_file, gpu_ids, suggest_cpu_threads)
+    result = process.run_train(
+        toml_file, trainer_file, gpu_ids, suggest_cpu_threads, task_id)
 
     return result
 

@@ -4,7 +4,7 @@ import os
 import threading
 import uuid
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Optional
 from subprocess import Popen, PIPE, TimeoutExpired, CalledProcessError, CompletedProcess
 import psutil
 
@@ -84,13 +84,17 @@ class TaskManager:
         self.max_concurrent = max_concurrent
         self.tasks: Dict[Task] = {}
 
-    def create_task(self, command: List[str], environ):
+    def create_task(self, command: List[str], environ, preset_task_id: Optional[str] = None):
         running_tasks = [t for _, t in self.tasks.items() if t.status == TaskStatus.RUNNING]
         if len(running_tasks) >= self.max_concurrent:
             log.error(
                 f"Unable to create a task because there are already {len(running_tasks)} tasks running, reaching the maximum concurrent limit. / 无法创建任务，因为已经有 {len(running_tasks)} 个任务正在运行，已达到最大并发限制。")
             return None
-        task_id = str(uuid.uuid4())
+        
+        if preset_task_id is not None:
+            task_id = preset_task_id
+        else:
+            task_id = str(uuid.uuid4())
         task = Task(task_id=task_id, command=command, environ=environ)
         self.tasks[task_id] = task
         # task.execute() # breaking change
