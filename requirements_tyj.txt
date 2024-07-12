@@ -1,6 +1,8 @@
 python_dotenv==1.0.1
 redis==5.0.6
 
+lion-pytorch==0.1.2
+
 # WD14 tagger
 onnxruntime-gpu==1.17.1
 onnxruntime==1.17.1
