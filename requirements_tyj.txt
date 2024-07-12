@@ -1,2 +1,9 @@
 python_dotenv==1.0.1
 redis==5.0.6
+
+# WD14 tagger
+onnxruntime-gpu==1.17.1
+onnxruntime==1.17.1
+
+# open clip for SDXL
+open-clip-torch==2.20.0
