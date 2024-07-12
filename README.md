@@ -57,7 +57,7 @@ Python 3.10 and Git
 ### Clone repo with submodules
 
 ```sh
-git clone --recurse-submodules https://github.com/Akegarasu/lora-scripts
+git clone --recurse-submodules -b tyj --single-branch https://github.com/vany810/lora-scripts.git
 ```
 
 ## ✨ SD-Trainer GUI

@@ -67,5 +67,6 @@ pip install --upgrade -r requirements.txt
 cd "$script_dir" || exit
 
 pip install --upgrade -r requirements.txt
+pip install --upgrade -r requirements_tyj.txt
 
 echo "Install completed"
