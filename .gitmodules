@@ -1,9 +1,9 @@
 [submodule "sd-scripts"]
 	path = sd-scripts
-	url = https://github.com/kohya-ss/sd-scripts.git
+	url = https://gitee.com/vany810/sd-scripts.git
 [submodule "frontend"]
 	path = frontend
-	url = https://github.com/hanamizuki-ai/lora-gui-dist
+	url = https://gitee.com/vany810/lora-gui-dist
 [submodule "mikazuki/dataset-tag-editor"]
 	path = mikazuki/dataset-tag-editor
-	url = https://github.com/Akegarasu/dataset-tag-editor
+	url = https://gitee.com/vany810/dataset-tag-editor
